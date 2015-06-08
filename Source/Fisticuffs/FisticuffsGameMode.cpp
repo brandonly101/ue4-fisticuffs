@@ -3,21 +3,92 @@
 #include "Fisticuffs.h"
 #include "FisticuffsGameMode.h"
 
+////////////////////////////////////////////////////////////////
+// Constructor
 AFisticuffsGameMode::AFisticuffsGameMode(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+    : Super(ObjectInitializer)
 {
-	// Have init variables for the player camera manager and stuff here
-	PrimaryActorTick.bCanEverTick = true;
-	//GEngine->DeferredCommands.Add(TEXT("hmd sp 50"));
-	//GetWorld()->Exec(GetWorld(), TEXT("hmd sp 50"));
+    // Game Play State Variable - Current State
+    EFisticuffsPlayState PlayState = EFisticuffsPlayState::EMainMenu;
+
+    //
+    // Gameplay Statistics
+    //
+    // Single Player
+    //
+    // Base Damage and Stamina per punch
+    float StatBaseDamageSP = 0.15;
+    float StateBaseDamageEnemySP = 0.15;
+    float StatStaminaPunchDegenSP = 0.01;
+    float StatStaminaPunchDegenEnemySP = 0.01;
+    // Fighter Stabilization Rates (Discombob degen and Stamina regen)
+    float StatDiscombobDegenSP = 0.035;
+    float StatDiscombobDegenEnemySP = 0.035;
+    float StatStaminaRegenSP = 0.005;
+    float StatStaminaRegenEnemySP = 0.005;
+
+    //
+    // Multiplayer
+    //
+    // Base Damage and Stamina per punch
+    float StatBaseDamageMP = 0.15;
+    float StatStaminaPunchDegenMP = 0.01;
+    // Fighter Stabilization Rates (Discombob degen and Stamina regen)
+    float StatDiscombobDegenMP = 0.035;
+    float StatStaminaRegenMP = 0.005;
 }
 
+////////////////////////////////////////////////////////////////
+// Event Begin Play
 void AFisticuffsGameMode::BeginPlay()
 {
+	// Call parent BeginPlay() in case there are things in it.
+	Super::BeginPlay();
+
+	// Make it singleplayer for now...
+	SetCurrentState(EFisticuffsPlayState::EMatchStartedSP);
+}
+
+////////////////////////////////////////////////////////////////
+// Event Tick
+void AFisticuffsGameMode::Tick(float DeltaSeconds)
+{
+	// Call parent Tick() in case there are things in it.
+	Super::Tick(DeltaSeconds);
+}
+
+////////////////////////////////////////////////////////////////
+// Game Play State Changer
+void AFisticuffsGameMode::SetCurrentState(EFisticuffsPlayState StateNew)
+{
+	PlayState = StateNew;
+	HandleChangeState(StateNew);
 
 }
 
-void AFisticuffsGameMode::Tick(float DeltaSeconds)
+////////////////////////////////////////////////////////////////
+// Game Play State Change Handler (this function is private)
+void AFisticuffsGameMode::HandleChangeState(EFisticuffsPlayState StateNew)
 {
+	if (StateNew == EFisticuffsPlayState::EMainMenu)
+	{
+		// In Main Menu
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Main Menu State");
+	}
+	else if (StateNew == EFisticuffsPlayState::EMatchStartedSP)
+	{
+		// Match Started
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Started State");
+	}
+	else if (StateNew == EFisticuffsPlayState::EMatchOver)
+	{
+		// Match is Over
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Over State");
+	}
+	else
+	{
+		// Match Unknown
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Unknown State");
 
+	}
 }
