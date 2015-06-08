@@ -24,7 +24,7 @@ public:
 	// Tick
 	virtual void Tick(float DeltaSeconds) override;
 
-    // Current Stats
+    // Current Statistics
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FisticuffsGameStatistics")
 	float FighterStatDiscombobCurrent;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FisticuffsGameStatistics")
@@ -38,4 +38,3 @@ private:
     bool FighterDead;
 
 };
-

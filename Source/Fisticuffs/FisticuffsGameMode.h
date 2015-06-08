@@ -15,8 +15,8 @@ UENUM(BlueprintType)
 enum class EFisticuffsPlayState : uint8
 {
 	EMainMenu UMETA(DisplayName = "MainMenu"),
-	EMatchStartedSP UMETA(DisplayName = "MatchStarted"),
-	EMatchStartedMP UMETA(DisplayName = "MatchStartedMultiplayer"),
+	EMatchStartSP UMETA(DisplayName = "MatchStart"),
+	EMatchStartMP UMETA(DisplayName = "MatchStartMultiplayer"),
 	EMatchOver UMETA(DisplayName = "MatchOver"),
 	EUnknown UMETA(DisplayName = "Unknown"),
 };
@@ -77,14 +77,14 @@ public:
 	float StatDiscombobDegenMP;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FisticuffsGameStatistics")
 	float StatStaminaRegenMP;
-    
-    //
-    // Level References
-    //
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "LevelReferences")
-    
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayState")
+	bool LevelTriggerState;
+
+	//
 	// State Changer
+	//
+	UFUNCTION(BlueprintCallable, Category = "PlayState")
 	void SetCurrentState(EFisticuffsPlayState StateNew);
 
 private:	

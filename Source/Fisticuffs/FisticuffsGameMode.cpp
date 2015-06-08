@@ -6,37 +6,13 @@
 ////////////////////////////////////////////////////////////////
 // Constructor
 AFisticuffsGameMode::AFisticuffsGameMode(const FObjectInitializer& ObjectInitializer)
-    : Super(ObjectInitializer)
-{
-    // Game Play State Variable - Current State
-    EFisticuffsPlayState PlayState = EFisticuffsPlayState::EMainMenu;
-
-    //
-    // Gameplay Statistics
-    //
-    // Single Player
-    //
-    // Base Damage and Stamina per punch
-    float StatBaseDamageSP = 0.15;
-    float StateBaseDamageEnemySP = 0.15;
-    float StatStaminaPunchDegenSP = 0.01;
-    float StatStaminaPunchDegenEnemySP = 0.01;
-    // Fighter Stabilization Rates (Discombob degen and Stamina regen)
-    float StatDiscombobDegenSP = 0.035;
-    float StatDiscombobDegenEnemySP = 0.035;
-    float StatStaminaRegenSP = 0.005;
-    float StatStaminaRegenEnemySP = 0.005;
-
-    //
-    // Multiplayer
-    //
-    // Base Damage and Stamina per punch
-    float StatBaseDamageMP = 0.15;
-    float StatStaminaPunchDegenMP = 0.01;
-    // Fighter Stabilization Rates (Discombob degen and Stamina regen)
-    float StatDiscombobDegenMP = 0.035;
-    float StatStaminaRegenMP = 0.005;
-}
+	: Super(ObjectInitializer),
+	PlayState(EFisticuffsPlayState::EMainMenu),
+	StatBaseDamageSP(0.15), StateBaseDamageEnemySP(0.15), StatStaminaPunchDegenSP(0.01), StatStaminaPunchDegenEnemySP(0.01),
+	StatDiscombobDegenSP(0.035), StatDiscombobDegenEnemySP(0.035), StatStaminaRegenSP(0.005), StatStaminaRegenEnemySP(0.005),
+	StatBaseDamageMP(0.15), StatStaminaPunchDegenMP(0.01), StatDiscombobDegenMP(0.035), StatStaminaRegenMP(0.005),
+	LevelTriggerState(true)
+{}
 
 ////////////////////////////////////////////////////////////////
 // Event Begin Play
@@ -46,7 +22,7 @@ void AFisticuffsGameMode::BeginPlay()
 	Super::BeginPlay();
 
 	// Make it singleplayer for now...
-	SetCurrentState(EFisticuffsPlayState::EMatchStartedSP);
+	SetCurrentState(EFisticuffsPlayState::EMainMenu);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -62,8 +38,8 @@ void AFisticuffsGameMode::Tick(float DeltaSeconds)
 void AFisticuffsGameMode::SetCurrentState(EFisticuffsPlayState StateNew)
 {
 	PlayState = StateNew;
+	LevelTriggerState = true;
 	HandleChangeState(StateNew);
-
 }
 
 ////////////////////////////////////////////////////////////////
@@ -75,10 +51,10 @@ void AFisticuffsGameMode::HandleChangeState(EFisticuffsPlayState StateNew)
 		// In Main Menu
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Main Menu State");
 	}
-	else if (StateNew == EFisticuffsPlayState::EMatchStartedSP)
+	else if (StateNew == EFisticuffsPlayState::EMatchStartSP)
 	{
 		// Match Started
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Started State");
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Started SP State");
 	}
 	else if (StateNew == EFisticuffsPlayState::EMatchOver)
 	{
@@ -89,6 +65,5 @@ void AFisticuffsGameMode::HandleChangeState(EFisticuffsPlayState StateNew)
 	{
 		// Match Unknown
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Unknown State");
-
 	}
 }

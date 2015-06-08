@@ -13,7 +13,7 @@ void AFisticuffsGameState::BeginPlay()
 	Super::BeginPlay();
 
 	// Assign the reference variables
-	GameMode = Cast<AFisticuffsGameMode>(UGameplayStatics::GetGameMode());
+	GameMode = Cast<AFisticuffsGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 }
 
 // Tick
@@ -23,7 +23,7 @@ void AFisticuffsGameState::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	// Singleplayer
-	if (GameMode->PlayState == EFisticuffsPlayState::EMatchStartedSP)
+	if (GameMode->PlayState == EFisticuffsPlayState::EMatchStartSP)
 	{   
         // If the player is dead, change the game mode to Match Over
 		if (Cast<AFisticuffsPlayerState>(PlayerArray[0])->GetFighterDead())
@@ -31,7 +31,7 @@ void AFisticuffsGameState::Tick(float DeltaSeconds)
 			GameMode->SetCurrentState(EFisticuffsPlayState::EMatchOver);
 		}
 	}
-	else if (GameMode->PlayState == EFisticuffsPlayState::EMatchStartedMP)
+	else if (GameMode->PlayState == EFisticuffsPlayState::EMatchStartMP)
 	{
         
 	}

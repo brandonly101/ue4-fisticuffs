@@ -34,7 +34,7 @@ bool AFisticuffsPlayerState::GetFighterDead() const
     return FighterDead;
 }
 
-bool AFisticuffsPlayerState::SetFighterDead()
+void AFisticuffsPlayerState::SetFighterDead()
 {
     FighterDead = true;
 }
