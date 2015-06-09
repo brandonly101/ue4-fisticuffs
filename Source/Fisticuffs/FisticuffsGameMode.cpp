@@ -20,9 +20,6 @@ void AFisticuffsGameMode::BeginPlay()
 {
 	// Call parent BeginPlay() in case there are things in it.
 	Super::BeginPlay();
-
-	// Make it singleplayer for now...
-	SetCurrentState(EFisticuffsPlayState::EMainMenu);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -50,20 +47,37 @@ void AFisticuffsGameMode::HandleChangeState(EFisticuffsPlayState StateNew)
 	{
 		// In Main Menu
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Main Menu State");
-	}
+        UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->SetActorTickEnabled(false);
+    }
 	else if (StateNew == EFisticuffsPlayState::EMatchStartSP)
 	{
-		// Match Started
+		// Match Started SP
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Started SP State");
-	}
-	else if (StateNew == EFisticuffsPlayState::EMatchOver)
+        UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->SetActorTickEnabled(true);
+    }
+    else if (StateNew == EFisticuffsPlayState::EMatchStartMP)
+    {
+        // Match Started MP
+        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Started MP State");
+    }
+	else if (StateNew == EFisticuffsPlayState::EMatchOverWin)
 	{
-		// Match is Over
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Over State");
+		// Match Over Win
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Over Win State");
 	}
+    else if (StateNew == EFisticuffsPlayState::EMatchOverLoseSP)
+    {
+        // Match Over Lose SP
+        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Over Lose SP State");
+    }
+    else if (StateNew == EFisticuffsPlayState::EMatchOverLoseMP)
+    {
+        // Match Over Lose MP
+        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Match Over Lose MP State");
+    }
 	else
 	{
-		// Match Unknown
+		// Unknown State
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Unknown State");
 	}
 }

@@ -15,9 +15,11 @@ UENUM(BlueprintType)
 enum class EFisticuffsPlayState : uint8
 {
 	EMainMenu UMETA(DisplayName = "MainMenu"),
-	EMatchStartSP UMETA(DisplayName = "MatchStart"),
-	EMatchStartMP UMETA(DisplayName = "MatchStartMultiplayer"),
-	EMatchOver UMETA(DisplayName = "MatchOver"),
+	EMatchStartSP UMETA(DisplayName = "MatchStartSP"),
+	EMatchStartMP UMETA(DisplayName = "MatchStartMP"),
+	EMatchOverWin UMETA(DisplayName = "MatchOverWin"),
+    EMatchOverLoseSP UMETA(DisplayName = "MatchOverLoseSP"),
+    EMatchOverLoseMP UMETA(DisplayName = "MatchOverLoseMP"),
 	EUnknown UMETA(DisplayName = "Unknown"),
 };
 

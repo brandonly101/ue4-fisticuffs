@@ -4,7 +4,9 @@
 #include "FisticuffsGameState.h"
 
 // Constructor
-AFisticuffsGameState::AFisticuffsGameState(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
+AFisticuffsGameState::AFisticuffsGameState(const FObjectInitializer& ObjectInitializer)
+    : Super(ObjectInitializer)
+{}
 
 // Begin Play
 void AFisticuffsGameState::BeginPlay()
@@ -24,15 +26,17 @@ void AFisticuffsGameState::Tick(float DeltaSeconds)
 
 	// Singleplayer
 	if (GameMode->PlayState == EFisticuffsPlayState::EMatchStartSP)
-	{   
-        // If the player is dead, change the game mode to Match Over
-		if (Cast<AFisticuffsPlayerState>(PlayerArray[0])->GetFighterDead())
-		{
-			GameMode->SetCurrentState(EFisticuffsPlayState::EMatchOver);
-		}
-	}
-	else if (GameMode->PlayState == EFisticuffsPlayState::EMatchStartMP)
 	{
-        
+
+	}
+	
+    // Multiplayer
+    if (GameMode->PlayState == EFisticuffsPlayState::EMatchStartMP)
+	{
+        for (int i = 0; i < 3; i++)
+        {
+            if (Cast<AFisticuffsPlayerState>(PlayerArray[i])->GetFighterDead())
+                PlayerArray[i]->bIsSpectator = true;
+        }
 	}
 }

@@ -9,6 +9,7 @@
 /**
  * 
  */
+
 UCLASS()
 class FISTICUFFS_API AFisticuffsPlayerState : public APlayerState
 {
